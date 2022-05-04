@@ -6,6 +6,7 @@ import ideaImageUrl from '../../assets/Idea.svg';
 import thoughtImageUrl from '../../assets/Thought.svg';
 import { FeedbackTypeStep } from "./Steps/FeedbackTypeStep";
 import { FeedbackContentStep } from "./Steps/FeedbackContentStep";
+import { FeedbackSuccessStep } from "./Steps/FeedbackSuccessStep";
 
 export const feedbackTypes = {
     BUG: {
@@ -35,22 +36,30 @@ export type FeedbackType = keyof typeof feedbackTypes;
 
 export function WidgetForm() {
     const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null);
+    const [feedbackSend, setFeedbackSend] = useState(false);
 
     function handleRestartFeedback() {
+        setFeedbackSend(false);
         setFeedbackType(null);
     }
 
     return (
         <div className='bg-zinc-800 p-4 relative rounded-2xl mb-4 flex flex-col items-center shadow-lg w-[calc(100vw-2rem)] md:w-auto'>
-
-            {!feedbackType ? (
-               <FeedbackTypeStep onFeedbackTypeChanged={setFeedbackType} />
-            ) :(
-                <FeedbackContentStep 
-                feedbackType={feedbackType}
-                onFeedbackRestartRequest={handleRestartFeedback}
-                />
-            )}
+            { feedbackSend ? (
+                <FeedbackSuccessStep onFeedbackRestartRequest={handleRestartFeedback} />
+            ) : (
+                <>
+                {!feedbackType ? (
+                    <FeedbackTypeStep onFeedbackTypeChanged={setFeedbackType} />
+                ) :(
+                    <FeedbackContentStep 
+                    feedbackType={feedbackType}
+                    onFeedbackRestartRequest={handleRestartFeedback}
+                    onFeedbackSend={() => setFeedbackSend(true)}
+                    />
+                )}
+                </>
+            ) }
 
             <footer className='text-xs text-neutral-400'>
              Feito com ♥ pela <a className="underline underline-offset-2" href="https://rocketseat.com.br">Rocketseat</a>
