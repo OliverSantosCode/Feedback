@@ -47,7 +47,7 @@ export class SubmitFeedbackUseCase {
                 `<p>Tipo do feedback: ${type}</p>`,
                 `<p>Comentário: ${comment}</p>`,
                 `</div>`,
-                `<img alt="Imagem de PrintScreen ou Screenshot" src="${screenshot}" style="width: 100%;">`,   
+                screenshot ?`<img alt="Imagem de PrintScreen ou Screenshot" src="${screenshot}" style="width: 100%;">`: '',   
                 `</body>`, 
                 `</html>`
             ].join('\n')
